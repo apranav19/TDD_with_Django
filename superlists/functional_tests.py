@@ -23,21 +23,24 @@ class NewVisitorTest(unittest.TestCase):
 
         # User enters a to-do item
         input_box = self.browser.find_element_by_id('id_new_item')
-        self.assertEqual(input_box.get_attribute('placeholder'), "Enter a to-do item")
+        input_box.send_keys('Sell an item')
+        input_box.send_keys(Keys.ENTER)
+
+        #self.assertEqual(input_box.get_attribute('placeholder'), "Enter a to-do item")
 
         # Buy an item
-        input_box.send_keys('Buy an item')
+        #input_box.send_keys('Buy an item')
 
         # When a user hits ENTER, the page must update
         # to display a table of to-do items
-        input_box.send_keys(Keys.ENTER)
+        #input_box.send_keys(Keys.ENTER)
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-                any(row.text == '1: Buy an item' for row in rows),
-                "New to-do item did not appear in table"
-        )
+        self.assertIn('1: Buy an item', [row.text for row in rows])
+
+        # Test 2nd item
+        self.assertIn('2: Sell an item', [row.text for row in rows])
 
         self.fail('Finish the test!')
 
