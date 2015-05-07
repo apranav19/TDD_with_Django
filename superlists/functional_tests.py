@@ -33,8 +33,7 @@ class NewVisitorTest(unittest.TestCase):
         input_box.send_keys(Keys.ENTER)
 
         # Use refactored method to check element in row
-        self.check_for_row_in_list_table('1: Buy an item')
-        self.check_for_row_in_list_table('2: Sell an item')
+        self.check_for_row_in_list_table('1: Sell an item')
 
         self.fail('Finish the test!')
 
