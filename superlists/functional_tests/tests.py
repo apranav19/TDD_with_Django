@@ -1,8 +1,9 @@
 from selenium import webdriver
+from django.test import LiveServerTestCase
 from selenium.webdriver.common.keys import Keys
 import unittest
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
@@ -18,7 +19,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Head over to the site
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # Check if title is customized
         self.assertIn('To-Do lists', self.browser.title)
@@ -36,7 +37,3 @@ class NewVisitorTest(unittest.TestCase):
         self.check_for_row_in_list_table('1: Sell an item')
 
         self.fail('Finish the test!')
-
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
