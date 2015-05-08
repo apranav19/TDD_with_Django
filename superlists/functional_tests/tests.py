@@ -33,7 +33,34 @@ class NewVisitorTest(LiveServerTestCase):
         input_box.send_keys('Sell an item')
         input_box.send_keys(Keys.ENTER)
 
+        # Take user to new URL
+        current_user_url = self.browser.current_url
+        self.assertRegex(current_user_url, '/lists/.+')
+
         # Use refactored method to check element in row
         self.check_for_row_in_list_table('1: Sell an item')
+
+        # A new user visits the site
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
+        # The new user visits the home page. There is no sign of the previous user's list
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Sell an item', page_text)
+
+        input_box = self.browser.find_element_by_id('id_new_item')
+        input_box.send_keys('Buy Melk')
+        input_bou.send_keys(Keys.ENTER)
+
+        # The new user gets his own URL now
+        new_user_list_url = self.browser.current_url
+        self.assertRegex(new_user_list_url, '/lists/.+')
+        self.assertNotEqual(new_user_list_url, current_user_url)
+
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Sell an item', page_text)
+        self.assertIn('Buy Melk', page_text)
+
 
         self.fail('Finish the test!')
