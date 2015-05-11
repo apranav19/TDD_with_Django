@@ -51,7 +51,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         input_box = self.browser.find_element_by_id('id_new_item')
         input_box.send_keys('Buy Melk')
-        input_bou.send_keys(Keys.ENTER)
+        input_box.send_keys(Keys.ENTER)
 
         # The new user gets his own URL now
         new_user_list_url = self.browser.current_url
